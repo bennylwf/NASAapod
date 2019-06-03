@@ -51,16 +51,21 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
         Apod apod = values.get(position);
         holder.dateTextView.setText(apod.getDate());
 
+        if (holder.disposable != null && !holder.disposable.isDisposed()) {
+            compositeDisposable.remove(holder.disposable);
+            // this will unsubscribe the subscription as well
+        }
+
         if (apod.getUrl() != null && apod.getUrl().startsWith("https://apod.nasa.gov/")) {
             Log.d("RvAdapter", "Date: " + apod.getDate() + " url: " + apod.getUrl());
             String imagePath = apod.getUrl().substring( "https://apod.nasa.gov/".length());
 
-            Disposable disposable = NasaService.getInstance().getImage(imagePath)
+            holder.disposable = NasaService.getInstance().getImage(imagePath)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(holder.imageView::setImageBitmap);
 
-            compositeDisposable.add(disposable);
+            compositeDisposable.add(holder.disposable);
 
         }
 
@@ -72,6 +77,8 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
         values.set(position, apod);
         notifyItemChanged( position);
     }
+
+
 
 
     @Override
@@ -90,6 +97,8 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
         private final View layout;
         private final TextView dateTextView;
         private final ImageView imageView;
+
+        protected Disposable disposable;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

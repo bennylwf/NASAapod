@@ -104,4 +104,10 @@ public class ImageActivity extends AppCompatActivity {
         }
         return dates;
     }
+
+    @Override
+    protected void onDestroy() {
+        recyclerView.setAdapter(null);
+        super.onDestroy();
+    }
 }

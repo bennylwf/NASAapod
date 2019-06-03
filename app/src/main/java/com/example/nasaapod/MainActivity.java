@@ -25,8 +25,8 @@ public class MainActivity extends AppCompatActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         ApodDate apodDate = new ApodDate();
-        apodDate.setStartDate("2019-02-01");
-        apodDate.setEndDate("2019-05-31");
+        apodDate.setStartDate("2019-03-01");
+        apodDate.setEndDate("2019-03-15");
         binding.setApodDate(apodDate);
 
         binding.button.setOnClickListener(this::loadNasa);
