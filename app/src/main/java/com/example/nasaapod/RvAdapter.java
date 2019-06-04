@@ -57,7 +57,7 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
         }
 
         if (apod.getUrl() != null && apod.getUrl().startsWith("https://apod.nasa.gov/")) {
-            Log.d("RvAdapter", "Date: " + apod.getDate() + " url: " + apod.getUrl());
+            Log.d("RvAdapter", "loading image for Date: " + apod.getDate() + " url: " + apod.getUrl());
             String imagePath = apod.getUrl().substring( "https://apod.nasa.gov/".length());
 
             holder.disposable = NasaService.getInstance().getImage(imagePath)
@@ -71,10 +71,11 @@ public class RvAdapter extends RecyclerView.Adapter<RvAdapter.ViewHolder> {
 
     }
 
-    public void updateApod(Apod apod) {
+    public void updateApodImage(Apod apod) {
 
         int position = values.indexOf(apod);
         values.set(position, apod);
+        Log.d("RvAdapter", "Notify change for Date: " + apod.getDate() + " url: " + apod.getUrl());
         notifyItemChanged( position);
     }
 

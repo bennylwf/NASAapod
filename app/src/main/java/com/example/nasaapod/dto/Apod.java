@@ -87,4 +87,12 @@ public class Apod {
     public int hashCode() {
         return Objects.hash(date);
     }
+
+    @Override
+    public String toString() {
+        return "Apod{" +
+                "date='" + date + '\'' +
+                ", url='" + url + '\'' +
+                '}';
+    }
 }
